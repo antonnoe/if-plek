@@ -39,8 +39,6 @@
         { titel: 'Water en riool bij je huis in Frankrijk', pad: '/water-en-riool-frankrijk/' },
         { titel: 'Handleiding voor een woning opgetrokken uit leem', pad: '/handleiding-voor-een-woning-opgetrokken-uit-leem/' },
         { titel: 'Van grange of atelier naar woning? Eerst goed controleren', pad: '/van-grange-of-atelier-naar-woning-eerst-goed-controleren-of-dat-zomaar-kancheck-eerst-het-plu-via-adres-ban/' },
-        { titel: 'Het huis is van u, maar wie wonen er nog meer?', pad: '/ongedierte-in-frankrijk/' },
-        { titel: 'De isolatie van het Franse huis', pad: '/de-isolatie-van-het-franse-huis/' }
       ] },
       { nr: 4, titel: 'Bod en compromis de vente', anker: '#fase4', artikelen: [
         { titel: 'Compromis de vente', pad: '/compromis-de-vente/' },
@@ -62,8 +60,6 @@
         { titel: 'Taxe d’habitation voor tweede woningen in Frankrijk', pad: '/taxe-dhabitation-tweede-woning/' },
         { titel: 'Verzekeringen in Frankrijk', pad: '/verzekeringen-in-frankrijk/' },
         { titel: 'Subsidies voor energierenovatie in Frankrijk', pad: '/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/' },
-        { titel: 'Éco-PTZ, renteloze lening voor energierenovatie in Frankrijk', pad: '/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/' },
-        { titel: 'La Mairie, van de wieg tot het graf', pad: '/la-mairie-van-de-wieg-tot-het-graf/' },
       ] }
     ];
     /* ===== einde FASEN ===== */
