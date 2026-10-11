@@ -214,11 +214,8 @@
       '<ul class="ifz-lijst">' +
       (data('data-ifz-enquete') === 'ja' ? '<li><a href="https://infofrankrijk.com/regio-enquete/"><b>Regio-enquête</b><span>Uw prioriteiten naast de regio’s</span></a></li>' : '<li><div class="ifz-later" aria-disabled="true"><b>Regio-enquête <i>komt later</i></b><span>Uw prioriteiten naast de regio’s</span></div></li>') +
       '<li><a href="https://infofrankrijk.com/de-franse-integratiegids/"><b>Franse integratiegids</b><span>Hoe word je deel van je omgeving?</span></a></li>' +
-      '<li><a href="https://www.cafeclaude.fr/"><b>Café Claude</b><span>Stel uw eigen vraag, deels voor abonnees</span></a></li>' +
       '</ul>' +
       thema() +
-      '<a class="ifz-bewaar" href="' + bewaarLink().replace(/&/g, '&amp;') + '">Bewaar in Mijn Dossier</a>' +
-      '<p class="ifz-wat">Voor abonnees. <a href="https://infofrankrijk.com/dossierfrankrijk-nl/">Wat is Mijn Dossier?</a></p>' +
       '<p class="ifz-onafh"><strong>Onafhankelijk.</strong> Makelaars, Nederlandse of Franse, hebben geen invloed op onze artikelen en tools. Wij verkopen uw gegevens niet door.</p>' +
       '</div>' +
       '<button type="button" class="ifz-knop" aria-expanded="false" aria-controls="ifz-paneel">' + pin + '<span class="ifz-naam">' + naam + '</span></button>' +
@@ -245,7 +242,6 @@
       vast.classList.toggle('ifz-weg', smal && !eind);
     }
     function open() {
-      bewaar.setAttribute('href', bewaarLink());
       paneel.hidden = false;
       knop.setAttribute('aria-expanded', 'true');
       vast.classList.remove('ifz-weg');
