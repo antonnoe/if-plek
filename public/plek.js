@@ -60,11 +60,8 @@
         { titel: 'Taxe d’habitation voor tweede woningen in Frankrijk', pad: '/taxe-dhabitation-tweede-woning/' },
         { titel: 'Verzekeringen in Frankrijk', pad: '/verzekeringen-in-frankrijk/' },
         { titel: 'Subsidies voor energierenovatie in Frankrijk', pad: '/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/' },
-        { titel: 'De bouwvergunning: déclaration préalable', pad: '/de-bouwvergunning-declaration-prealable/' },
         { titel: 'Éco-PTZ, renteloze lening voor energierenovatie in Frankrijk', pad: '/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/' },
-        { titel: 'De bouwvergunning: le permis de construire', pad: '/de-bouwvergunning-le-permis-de-construire/' },
         { titel: 'La Mairie, van de wieg tot het graf', pad: '/la-mairie-van-de-wieg-tot-het-graf/' },
-        { titel: 'Verhuizen, het opslaan van meubelen, garagebox, verhuizer of zelf doen', pad: '/opslaan-meubelen-garagebox-verhuizer-zelf-2/' }
       ] }
     ];
     /* ===== einde FASEN ===== */
