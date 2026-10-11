@@ -153,6 +153,9 @@
       '.ifz .ifz-lijst{list-style:none;margin:0 0 12px;padding:0;}',
       '.ifz .ifz-lijst li{margin:0;padding:0;list-style:none;}',
       '.ifz .ifz-lijst a{display:block;min-height:44px;padding:9px 10px;border-radius:6px;text-decoration:none;color:var(--z-ink);border:1px solid transparent;}',
+      '.ifz .ifz-lijst .ifz-later{display:block;padding:9px 10px;border:1px solid transparent;cursor:default;}',
+      '.ifz .ifz-lijst .ifz-later b,.ifz .ifz-lijst .ifz-later span{color:#6b6b6b;}',
+      '.ifz .ifz-lijst .ifz-later i{font-style:normal;font-size:.6875rem;font-weight:700;border:1px solid #bdbdbd;border-radius:999px;padding:1px 7px;margin-left:6px;white-space:nowrap;}',
       '.ifz .ifz-lijst a:hover{background:rgba(128,0,0,.05);border-color:rgba(128,0,0,.16);}',
       '.ifz .ifz-lijst a:focus-visible{outline:3px solid var(--z-p);outline-offset:0;}',
       '.ifz .ifz-lijst b{display:block;color:var(--z-p);font-weight:800;font-size:.9375rem;}',
@@ -209,7 +212,7 @@
       '<button type="button" class="ifz-dicht" aria-label="Sluiten">×</button></div>' +
       '<p class="ifz-intro">Kijk verder dan het huis zelf.</p>' +
       '<ul class="ifz-lijst">' +
-      (data('data-ifz-enquete') === 'ja' ? '<li><a href="https://infofrankrijk.com/regio-enquete/"><b>Regio-enquête</b><span>Uw prioriteiten naast de regio’s</span></a></li>' : '') +
+      (data('data-ifz-enquete') === 'ja' ? '<li><a href="https://infofrankrijk.com/regio-enquete/"><b>Regio-enquête</b><span>Uw prioriteiten naast de regio’s</span></a></li>' : '<li><div class="ifz-later" aria-disabled="true"><b>Regio-enquête <i>komt later</i></b><span>Uw prioriteiten naast de regio’s</span></div></li>') +
       '<li><a href="https://infofrankrijk.com/de-franse-integratiegids/"><b>Franse integratiegids</b><span>Hoe word je deel van je omgeving?</span></a></li>' +
       '<li><a href="https://www.cafeclaude.fr/"><b>Café Claude</b><span>Stel uw eigen vraag, deels voor abonnees</span></a></li>' +
       '</ul>' +

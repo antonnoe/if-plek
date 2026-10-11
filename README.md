@@ -26,3 +26,5 @@ Het script toont het element dan alleen op de gids, op /past-de-locatie/ en op a
 ## Plaatsingsbestanden
 
 `public/plaatsing/` bevat de HTML voor /past-de-locatie/ en het hubblok voor de gids (bron voor het plaatsen in WordPress, noindex).
+
+Tools die nog niet bestaan staan grijs en niet-klikbaar met het label "komt later"; in plek.js wordt de enquête pas een link met data-ifz-enquete="ja".
