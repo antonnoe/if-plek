@@ -12,6 +12,63 @@
 
     var script = document.currentScript || document.querySelector('script[src*="plek.js"]');
     var data = function (n) { return script && script.getAttribute ? script.getAttribute(n) : null; };
+    /* ===== FASEN: de zeven fasen van de gids huis kopen met hun artikelen =====
+       Aanpassen: titel of pad wijzigen, een regel toevoegen of verwijderen. Alleen live artikelen opnemen.
+       Een artikel mag in meer dan één fase staan. Pad met begin- en eindslash, zoals in de adresbalk. */
+    var GIDS = 'https://infofrankrijk.com/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
+    var GIDSPAD = '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
+    var SITE = 'https://infofrankrijk.com';
+    var FASEN = [
+      { nr: 1, titel: 'Voorbereiding', anker: '#fase1', artikelen: [
+        { titel: 'Vastgoed transactiekosten (rekentool)', pad: '/vastgoed-transactiekosten/' },
+        { titel: 'Franse bankrekening openen? Dit zijn de regels en uw rechten', pad: '/franse-bankrekening-openen-dit-zijn-de-regels-en-uw-rechten/' },
+        { titel: 'Investeren in Frans vastgoed: koopprijzen, belastingen en huurrendement', pad: '/investeren-in-frans-vastgoed-de-balans-tussen-koopprijzen-belastingen-en-huurrendement/' }
+      ] },
+      { nr: 2, titel: 'Zoeken', anker: '#fase2', artikelen: [
+        { titel: 'De Franse integratiegids: hoe word je deel van je omgeving?', pad: '/de-franse-integratiegids/' },
+        { titel: 'De Franse makelaar: carte professionnelle, mandaat en provisie', pad: '/carte-professionnelle-bankgarantie-bon-de-visite-mandat/' },
+        { titel: 'De Franse notaris bij uw huisaankoop', pad: '/le-notaire/' },
+        { titel: 'Huizen van leden te koop', pad: '/huizen-van-leden-te-koop/' }
+      ] },
+      { nr: 3, titel: 'Bezichtigen', anker: '#fase3', artikelen: [
+        { titel: 'Vastgoed in Frankrijk analyseren: prijzen, risico’s, DPE, PLU', pad: '/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/' },
+        { titel: 'Dossier vochtbestrijding en diagnosetool', pad: '/dossier-vochtbestrijding-en-diagnosetool/' },
+        { titel: 'De fosse septique, we duiken erin!', pad: '/dossier-fosse-septique/' },
+        { titel: 'Water en riool bij je huis in Frankrijk', pad: '/water-en-riool-frankrijk/' },
+        { titel: 'Handleiding voor een woning opgetrokken uit leem', pad: '/handleiding-voor-een-woning-opgetrokken-uit-leem/' },
+        { titel: 'Van grange of atelier naar woning? Eerst goed controleren', pad: '/van-grange-of-atelier-naar-woning-eerst-goed-controleren-of-dat-zomaar-kancheck-eerst-het-plu-via-adres-ban/' },
+        { titel: 'Het huis is van u, maar wie wonen er nog meer?', pad: '/ongedierte-in-frankrijk/' },
+        { titel: 'De isolatie van het Franse huis', pad: '/de-isolatie-van-het-franse-huis/' }
+      ] },
+      { nr: 4, titel: 'Bod en compromis de vente', anker: '#fase4', artikelen: [
+        { titel: 'Compromis de vente', pad: '/compromis-de-vente/' },
+        { titel: 'Kopen en viager', pad: '/kopen-en-viager/' },
+        { titel: 'De SCI (Société Civile Immobilière)', pad: '/sci-societe-civile-immobiliere/' }
+      ] },
+      { nr: 5, titel: 'Tussen compromis en acte authentique', anker: '#fase5', artikelen: [
+        { titel: 'De verplichte technische onderzoeken bij de verkoop van een huis', pad: '/de-verplichte-technische-onderzoeken-bij-de-verkoop-van-een-huis/' },
+        { titel: 'DPE in Frankrijk: energielabel en verplichtingen', pad: '/dpe-2026-in-frankrijk-uitleg-verplichtingen-en-aandachtspunten/' },
+        { titel: 'Het gemeentehuis, la Mairie', pad: '/het-gemeentehuis-la-mairie/' }
+      ] },
+      { nr: 6, titel: 'De acte authentique', anker: '#fase6', artikelen: [
+        { titel: 'De Franse notaris bij uw huisaankoop', pad: '/le-notaire/' },
+        { titel: 'Vastgoed transactiekosten (rekentool)', pad: '/vastgoed-transactiekosten/' },
+        { titel: 'Begrippenlijst Makelaardij en Notarissen in Frankrijk', pad: '/begrippenlijst-makelaardij-en-notarissen-frankrijk/' }
+      ] },
+      { nr: 7, titel: 'Na de aankoop', anker: '#fase7', artikelen: [
+        { titel: 'De taxe foncière, onroerendgoedbelasting', pad: '/de-taxe-fonciere-onroerendgoedbelasting/' },
+        { titel: 'Taxe d’habitation voor tweede woningen in Frankrijk', pad: '/taxe-dhabitation-tweede-woning/' },
+        { titel: 'Verzekeringen in Frankrijk', pad: '/verzekeringen-in-frankrijk/' },
+        { titel: 'Subsidies voor energierenovatie in Frankrijk', pad: '/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/' },
+        { titel: 'De bouwvergunning: déclaration préalable', pad: '/de-bouwvergunning-declaration-prealable/' },
+        { titel: 'Éco-PTZ, renteloze lening voor energierenovatie in Frankrijk', pad: '/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/' },
+        { titel: 'De bouwvergunning: le permis de construire', pad: '/de-bouwvergunning-le-permis-de-construire/' },
+        { titel: 'La Mairie, van de wieg tot het graf', pad: '/la-mairie-van-de-wieg-tot-het-graf/' },
+        { titel: 'Verhuizen, het opslaan van meubelen, garagebox, verhuizer of zelf doen', pad: '/opslaan-meubelen-garagebox-verhuizer-zelf-2/' }
+      ] }
+    ];
+    /* ===== einde FASEN ===== */
+
     var MAX = 1800;
     var BASIS = 'https://www.dossierfrankrijk.nl/nieuw?titel=';
 
@@ -46,6 +103,38 @@
       return BASIS + encodeURIComponent(titel) + '&inhoud=' + encodeURIComponent(inhoud);
     }
 
+
+    /* ---- Andere thema's in deze categorie ---- */
+    function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function norm(p) {
+      p = String(p || '/');
+      try { p = decodeURIComponent(p); } catch (e0) {}
+      p = p.split('#')[0].split('?')[0].toLowerCase();
+      if (p.charAt(0) !== '/') p = '/' + p;
+      if (p.charAt(p.length - 1) !== '/') p += '/';
+      return p;
+    }
+    function thema() {
+      var nu = norm(data('data-ifz-pad') || location.pathname);
+      var fasen = Array.isArray(FASEN) ? FASEN : [], uit = '', hits = 0;
+      if (nu !== GIDSPAD) {
+        for (var i = 0; i < fasen.length; i++) {
+          var f = fasen[i], arts = (f && f.artikelen) || [], hier = false, rest = '';
+          for (var j = 0; j < arts.length; j++) {
+            if (norm(arts[j].pad) === nu) hier = true;
+            else rest += '<li><a href="' + esc(SITE + arts[j].pad) + '">' + esc(arts[j].titel) + '</a></li>';
+          }
+          if (!hier) continue;
+          hits++;
+          uit += '<h4>Fase ' + esc(f.nr) + ': ' + esc(f.titel) + '</h4>' +
+            '<p class="ifz-naar"><a href="' + esc(GIDS + f.anker) + '">Naar dit deel van de gids</a></p>' +
+            (rest ? '<ul class="ifz-thema">' + rest + '</ul>' : '');
+        }
+      }
+      if (!hits) return '<p class="ifz-naar ifz-alle"><a href="' + esc(GIDS) + '">Alle fasen van de gids huis kopen</a></p>';
+      return '<div class="ifz-themas"><h3>Andere thema’s in deze categorie</h3>' + uit + '</div>';
+    }
+
     /* ---- Stijl, alles onder .ifz ---- */
     var css = [
       '.ifz{--z-p:#800000;--z-ink:#252525;--z-muted:#626262;font-family:Mulish,Arial,sans-serif;font-size:16px;line-height:1.5;color:var(--z-ink);}',
@@ -56,7 +145,7 @@
       '.ifz .ifz-loc{color:var(--z-p);font-weight:800;}',
       '.ifz .ifz-knop:focus-visible{outline:3px solid #252525;outline-offset:3px;}',
       '.ifz .ifz-knop svg{flex:0 0 20px;}',
-      '.ifz .ifz-paneel{position:absolute;right:0;bottom:56px;width:340px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #e5e2df;border-top:4px solid var(--z-p);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:16px 16px 14px;text-align:left;}',
+      '.ifz .ifz-paneel{position:absolute;right:0;bottom:56px;width:340px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #e5e2df;border-top:4px solid var(--z-p);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:16px 16px 14px;text-align:left;max-height:calc(100vh - 100px);overflow-y:auto;overflow-x:hidden;}',
       '.ifz .ifz-paneel[hidden]{display:none;}',
       '.ifz .ifz-kop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin:0 0 8px;}',
       '.ifz .ifz-kop h2{font-family:Poppins,Arial,sans-serif;font-size:1.05rem;font-weight:400;color:var(--z-muted);margin:0;padding:0;line-height:1.35;text-transform:none;letter-spacing:0;}',
@@ -73,6 +162,17 @@
       '.ifz .ifz-lijst a:focus-visible{outline:3px solid var(--z-p);outline-offset:0;}',
       '.ifz .ifz-lijst b{display:block;color:var(--z-p);font-weight:800;font-size:.9375rem;}',
       '.ifz .ifz-lijst span{display:block;font-size:.8125rem;color:var(--z-muted);}',
+      '.ifz .ifz-themas h3{font-family:Poppins,Arial,sans-serif;font-size:.9375rem;font-weight:600;color:var(--z-ink);margin:0 0 6px;padding:0;line-height:1.35;text-transform:none;letter-spacing:0;}',
+      '.ifz .ifz-themas h4{font-family:Poppins,Arial,sans-serif;font-size:.875rem;font-weight:600;color:var(--z-p);margin:10px 0 0;padding:0;line-height:1.35;text-transform:none;letter-spacing:0;}',
+      '.ifz .ifz-naar{margin:0;font-size:.8125rem;}',
+      '.ifz .ifz-naar a{display:inline-block;padding:12px 0;color:var(--z-p);font-weight:800;}',
+      '.ifz .ifz-alle{margin:0 0 8px;}',
+      '.ifz ul.ifz-thema{list-style:none;margin:0 0 6px;padding:0;}',
+      '.ifz ul.ifz-thema li{margin:0;padding:0;list-style:none;}',
+      '.ifz ul.ifz-thema a{display:block;min-height:44px;padding:9px 10px;border-radius:6px;text-decoration:none;color:var(--z-ink);font-size:.875rem;line-height:1.35;border:1px solid transparent;overflow-wrap:anywhere;}',
+      '.ifz ul.ifz-thema a:hover{background:rgba(128,0,0,.05);border-color:rgba(128,0,0,.16);}',
+      '.ifz ul.ifz-thema a:focus-visible,.ifz .ifz-naar a:focus-visible{outline:3px solid var(--z-p);outline-offset:0;}',
+      '.ifz .ifz-themas{margin:0 0 12px;border-top:1px solid #eee;padding-top:10px;}',
       '.ifz .ifz-bewaar{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;border:2px solid var(--z-p);border-radius:8px;background:#fff;color:var(--z-p);font-weight:800;text-decoration:none;font-size:.9375rem;}',
       '.ifz .ifz-bewaar:hover{background:#fff7f7;}',
       '.ifz .ifz-bewaar:focus-visible{outline:3px solid #252525;outline-offset:2px;}',
@@ -110,6 +210,7 @@
       '<li><a href="https://infofrankrijk.com/de-franse-integratiegids/"><b>Franse integratiegids</b><span>Hoe word je deel van je omgeving?</span></a></li>' +
       '<li><a href="https://www.cafeclaude.fr/"><b>Café Claude</b><span>Stel uw eigen vraag, deels voor abonnees</span></a></li>' +
       '</ul>' +
+      thema() +
       '<a class="ifz-bewaar" href="' + bewaarLink().replace(/&/g, '&amp;') + '">Bewaar in Mijn Dossier</a>' +
       '<p class="ifz-wat">Voor abonnees. <a href="https://infofrankrijk.com/dossierfrankrijk-nl/">Wat is Mijn Dossier?</a></p>' +
       '<p class="ifz-onafh"><strong>Onafhankelijk.</strong> Makelaars, Nederlandse of Franse, hebben geen invloed op onze artikelen en tools. Wij verkopen uw gegevens niet door.</p>' +
