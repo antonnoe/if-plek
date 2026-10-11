@@ -16,3 +16,13 @@ Vaste bron van het zwevende element "Past de LOCATIE?" voor Infofrankrijk en de 
 - Het paneel bepaalt de fase aan de hand van `location.pathname`. Staat de pagina in een of twee fasen, dan toont het paneel de fase met link naar de gids en de zusterartikelen. Anders, of op de gids zelf, staat er één regel "Alle fasen van de gids huis kopen".
 - Testen op een andere pagina: `data-ifz-pad="/het-gemeentehuis-la-mairie/"` op de scripttag.
 - Is `FASEN` leeg, dan verschijnt alleen die ene regel en gaat er niets stuk.
+
+## Eén regel voor de hele site (automatische modus)
+
+`<script src="https://if-plek.vercel.app/plek.js" data-ifz-auto="ja" defer></script>`
+
+Het script toont het element dan alleen op de gids, op /past-de-locatie/ en op artikelen die in FASEN staan. Op alle andere pagina's gebeurt niets. Er is geen gewone link nodig. Nieuw artikel erbij: alleen FASEN aanpassen.
+
+## Plaatsingsbestanden
+
+`public/plaatsing/` bevat de HTML voor /past-de-locatie/ en het hubblok voor de gids (bron voor het plaatsen in WordPress, noindex).

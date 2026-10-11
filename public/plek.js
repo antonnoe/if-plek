@@ -7,7 +7,9 @@
     if (window !== window.top) { var l = document.querySelectorAll('a.ifz-plek'); for (var i = 0; i < l.length; i++) { if (l[i].parentNode) l[i].parentNode.removeChild(l[i]); } return; } /* nooit in een iframe, ook de gewone link niet */
     if (window.__ifzPlek || document.querySelector('.ifz[data-ifz-live]')) return; /* dubbel laden */
     var bron = document.querySelector('a.ifz-plek');
-    if (!bron || !document.body) return;
+    var auto = false;
+    if (!document.body) return;
+    if (!bron) { var sc0 = document.currentScript || document.querySelector('script[src*="plek.js"]'); auto = !!(sc0 && sc0.getAttribute('data-ifz-auto') === 'ja'); if (!auto) return; }
     window.__ifzPlek = true;
 
     var script = document.currentScript || document.querySelector('script[src*="plek.js"]');
@@ -190,6 +192,14 @@
       '@media print{.ifz,.ifz-ruimte{display:none!important;}}'
     ].join('\n');
 
+    /* ---- Automatische modus: één scripttag voor de hele site. Het element verschijnt alleen op de gids, op /past-de-locatie/ en op artikelen uit FASEN ---- */
+    if (auto) {
+      var nu0 = norm(data('data-ifz-pad') || location.pathname), relevant = (nu0 === GIDSPAD || nu0 === '/past-de-locatie/');
+      for (var a0 = 0; !relevant && a0 < FASEN.length; a0++) { var ar0 = (FASEN[a0] && FASEN[a0].artikelen) || []; for (var b0 = 0; b0 < ar0.length; b0++) { if (norm(ar0[b0].pad) === nu0) { relevant = true; break; } } }
+      if (!relevant) { window.__ifzPlek = false; return; }
+      bron = document.createElement('a'); bron.className = 'ifz-plek'; bron.href = SITE + '/past-de-locatie/'; bron.textContent = 'Past de LOCATIE?'; bron.style.display = 'none'; document.body.appendChild(bron);
+    }
+
     /* ---- Opbouw ---- */
     var pin = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="#800000"/></svg>';
     var naam = 'Past de <b class="ifz-loc">LOCATIE</b>?';
@@ -260,7 +270,7 @@
     window.addEventListener('resize', plaats);
     plaats();
 
-    if (bron.parentNode) bron.parentNode.removeChild(bron);    /* de link is vervangen door het element */
+    if (bron && bron.parentNode) bron.parentNode.removeChild(bron);    /* de link is vervangen door het element */
   } catch (e) {
     /* bij een fout blijft de gewone link staan */
     try {
