@@ -266,6 +266,9 @@
       '.ifz .ifz-vers a{color:var(--z-p);}',
       '.ifz .ifz-tabs button{font-size:.875rem;}',
       '.ifz.ifz-inline{margin:0 auto 40px;max-width:560px;}',
+      '.ifz.ifz-tegel{margin:0 0 66px;max-width:none;}',
+      '.ifz.ifz-tegel .ifz-paneel{border:1px solid #d8d8d8!important;border-top:4px solid var(--z-p)!important;border-radius:0!important;box-shadow:none!important;}',
+      '.ifz.ifz-tegel .ifz-voet{border-radius:0;}',
       '.ifz.ifz-inline .ifz-vast{position:static;width:auto;margin:0;}',
       '.ifz.ifz-inline .ifz-paneel{position:static;transform:none;width:auto;max-width:none;max-height:none;box-shadow:0 3px 16px rgba(0,0,0,.08);}',
       '.ifz.ifz-inline .ifz-body{max-height:none;overflow:visible;}',
@@ -336,6 +339,10 @@
     /* homepage: paneel open in de pagina, boven "Recent geplaatste berichten"; lukt dat niet, dan gewoon zwevend */
     var inline = false;
     if (thuispagina) {
+      var kolom = document.querySelector('.et_pb_blog_grid .column');   /* als gewone tegel bovenaan de eerste kolom van de recente berichten */
+      if (kolom) { w.className = 'ifz ifz-inline ifz-tegel'; kolom.insertBefore(w, kolom.firstChild); inline = true; }
+    }
+    if (thuispagina && !inline) {
       var kandidaten = document.querySelectorAll('h1,h2,h3,h4,.et_pb_text_inner');
       for (var hk = 0; hk < kandidaten.length; hk++) {
         var tx = (kandidaten[hk].textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
