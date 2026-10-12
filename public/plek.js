@@ -1,5 +1,7 @@
-/* plek.js, zwevend element "La Maison" voor Infofrankrijk en de tools (kopen, kosten, verkopen).
-   Geen bibliotheken, geen cookies, geen opslag, geen tracking, geen netwerkverzoeken.
+/* plek.js, zwevend element "La Maison" voor Infofrankrijk en de tools (kopen, kosten, verkopen, wonen).
+   Ook: het paneel open op de homepage, een wegwijzer boven en onder elk La Maison-artikel en een balk op de vastgoedcategorieën.
+   Geen bibliotheken, geen cookies, geen opslag, geen tracking. Eén netwerkverzoek, alleen op de homepage, naar de eigen site
+   (welk La Maison-artikel het laatst is bijgewerkt); mislukt dat, dan blijft die regel gewoon weg.
    Faalt het script, dan blijft de gewone link a.ifz-plek staan. */
 (function ifzStart() {
   'use strict';
@@ -25,6 +27,12 @@
     var INTEGRATIEPAD = '/de-franse-integratiegids/'; /* staat onder "Past de locatie?" bij fase 2 */
     var KLUSSEN = SITE + '/klussen/';
     var CAFE = 'https://www.cafeclaude.fr/';
+    var LAMAISON = SITE + '/la-maison/';
+    var LAMAISONPAD = '/la-maison/';
+    var CATPADEN = ['/categorie/vastgoed/'];                  /* balk bovenaan deze categoriepagina's en hun subcategorieën, behalve: */
+    var CATNIET = ['/categorie/vastgoed/huren-en-verhuren/'];  /* verhuur valt buiten La Maison */
+    var FORUMTAG = 'https://www.nederlanders.fr/profiles/blog/list?tag=';   /* bij de verhuizing van Nederlanders.fr alleen deze regel en de lijst hieronder aanpassen */
+    var FORUM = ['Woningen Algemeen', 'Woningbeheer en Huishouding', 'Bouw', 'Inrichting', 'Exterieur', 'Telecommunicatie'];
     var DELEN = [
       { id: 'kopen', naam: 'Kopen', fasen: [
         { nr: 1, titel: 'Voorbereiding', anker: '#fase1', artikelen: [
@@ -46,17 +54,17 @@
         { nr: 4, titel: 'Bod en compromis', anker: '#fase4', artikelen: [
           { titel: 'Compromis de vente', pad: '/compromis-de-vente/' },
           { titel: 'Kopen en viager', pad: '/kopen-en-viager/' },
+          { titel: 'Samen eigenaar: de indivision', pad: '/samen-eigenaar-in-frankrijk-rechten-plichten-en-valkuilen-van-indivision/' },
           { titel: 'De SCI (Société Civile Immobilière)', pad: '/sci-societe-civile-immobiliere/' }
         ] },
         { nr: 5, titel: 'Tot de akte', anker: '#fase5', artikelen: [
           { titel: 'Verplichte technische onderzoeken', pad: '/de-verplichte-technische-onderzoeken-bij-de-verkoop-van-een-huis/' },
           { titel: 'DPE: energielabel en verplichtingen', pad: '/dpe-2026-in-frankrijk-uitleg-verplichtingen-en-aandachtspunten/' },
-          { titel: 'Het gemeentehuis, la Mairie', pad: '/het-gemeentehuis-la-mairie/' }
+          { titel: 'De mairie, van de wieg tot het graf', pad: '/la-mairie-van-de-wieg-tot-het-graf/' }
         ] },
         { nr: 6, titel: 'Acte authentique', anker: '#fase6', artikelen: [
           { titel: 'De Franse notaris', pad: '/le-notaire/' },
-          { titel: 'Begrippenlijst makelaardij en notarissen', pad: '/begrippenlijst-makelaardij-en-notarissen-frankrijk/' },
-          { titel: 'Veelgebruikte afkortingen op de huizenmarkt', pad: '/gebruikte-afkortingen-op-huizenmarkt/' }
+          { titel: 'Begrippenlijst notaris en makelaar', pad: '/begrippenlijst-makelaardij-en-notarissen-frankrijk/' }
         ] },
         { nr: 7, titel: 'Na de aankoop', anker: '#fase7', artikelen: [
           { titel: 'Verzekeringen in Frankrijk', pad: '/verzekeringen-in-frankrijk/' }
@@ -68,12 +76,26 @@
         { titel: 'De taxe foncière', pad: '/de-taxe-fonciere-onroerendgoedbelasting/' },
         { titel: 'Taxe d’habitation tweede woning', pad: '/taxe-dhabitation-tweede-woning/' },
         { titel: 'Subsidies voor energierenovatie', pad: '/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/' },
-        { titel: 'DPE in Frankrijk: energiekosten', pad: '/dpe-2026-in-frankrijk-uitleg-verplichtingen-en-aandachtspunten/' }
+        { titel: 'MaPrimeRénov’ 2026', pad: '/maprimerenov-2026-bezint-eer-ge-begint/' },
+        { titel: 'Éco-PTZ, renteloze lening', pad: '/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/' },
+        { titel: 'Btw van 5,5 % op renovatie', pad: '/tva-a-55-bij-renovatie-in-frankrijk-wanneer-geldt-het-lage-btw-tarief/' },
+        { titel: 'CEE-premies', pad: '/cee-en-primes-energie-energiebesparingspremies-in-frankrijk-uitgelegd/' },
+        { titel: 'Lokale subsidies', pad: '/lokale-subsidies-voor-energierenovatie-in-frankrijk-zo-vindt-u-wat-er-geldt/' }
       ] },
       { id: 'verkopen', naam: 'Verkopen', artikelen: [
         { titel: 'Verkoop van uw huis: 5 adviezen, 5 valkuilen, 5 fasen', pad: '/verkoop-van-uw-huis-in-frankrijk-5-adviezen-5-valkuilen-5-fasen/' },
         { titel: 'De plus-value immobilière', pad: '/de-plus-value-immobiliere/' },
+        { titel: 'Plus-value-calculator (rekentool)', pad: '/plus-value-calculator/' },
         { titel: 'Arrest De Ruyter: mis het voordeel niet', pad: '/zorg-dat-je-het-voordeel-arrest-de-ruyter-niet-misloopt/' }
+      ] },
+      { id: 'wonen', naam: 'Wonen', artikelen: [
+        { titel: 'EnergiePortaal (rekentool)', pad: '/energieportaal-bereken-de-energieprestatie-van-uw-franse-woning/' },
+        { titel: 'De keuze van het verwarmingssysteem', pad: '/de-keuze-van-het-verwarmingssysteem/' },
+        { titel: 'Aanleg centrale verwarming', later: true },
+        { titel: 'Rookgasafvoer en schoorsteen', pad: '/rookgasafvoer-schoorsteen-frankrijk-regels-verzekering/' },
+        { titel: 'De isolatie van het Franse huis', pad: '/de-isolatie-van-het-franse-huis/' },
+        { titel: 'Handboek zonnepanelen', pad: '/handboek-zonnepanelen-en-energieopwekking-frankrijk/' },
+        { titel: 'Gedupeerd door natuurgeweld', pad: '/gedupeerd-door-natuurgeweld-in-frankrijk-uw-verzekering-goed-regelen/' }
       ] }
     ];
     /* ===== einde INDELING ===== */
@@ -139,7 +161,10 @@
       return null;
     }
     var hier = thuis();
-    var op = (nu === GIDSPAD || nu === '/past-de-locatie/' || nu === '/klussen/' || hier);
+    var thuispagina = !!(document.body && document.body.classList && document.body.classList.contains('home'));
+    function opCat() { for (var c = 0; c < CATNIET.length; c++) if (nu.indexOf(CATNIET[c]) === 0) return false; for (var c2 = 0; c2 < CATPADEN.length; c2++) if (nu.indexOf(CATPADEN[c2]) === 0) return true; return false; }
+    var categorie = opCat();
+    var op = (nu === GIDSPAD || nu === LAMAISONPAD || nu === '/past-de-locatie/' || nu === '/klussen/' || hier || thuispagina || categorie);
     function item(a) {
       if (a.later || !a.pad) return '<li class="ifz-later">' + esc(a.titel) + ' <i>komt later</i></li>';
       if (norm(a.pad) === nu) return '<li class="ifz-hier"><span>u bent hier</span>' + esc(a.titel) + '</li>';
@@ -235,6 +260,29 @@
       '.ifz .ifz-sec a{display:inline-block;padding:10px 0;color:var(--z-muted);}',
       '.ifz .ifz-onafh{font-size:.75rem;color:var(--z-muted);margin:0;line-height:1.45;}',
       '.ifz a:focus-visible{outline:3px solid var(--z-p);outline-offset:1px;border-radius:2px;}',
+      '.ifz .ifz-hl{color:var(--z-p);text-decoration:none;}',
+      '.ifz .ifz-hl:hover{text-decoration:underline;}',
+      '.ifz .ifz-vers{font-size:.8125rem;color:var(--z-p);font-weight:700;margin:6px 0 0;}',
+      '.ifz .ifz-vers a{color:var(--z-p);}',
+      '.ifz .ifz-tabs button{font-size:.875rem;}',
+      '.ifz.ifz-inline{margin:0 auto 40px;max-width:560px;}',
+      '.ifz.ifz-inline .ifz-vast{position:static;width:auto;margin:0;}',
+      '.ifz.ifz-inline .ifz-paneel{position:static;transform:none;width:auto;max-width:none;max-height:none;box-shadow:0 3px 16px rgba(0,0,0,.08);}',
+      '.ifz.ifz-inline .ifz-body{max-height:420px;}',
+      '.ifz.ifz-inline .ifz-knop,.ifz.ifz-inline .ifz-dicht{display:none;}',
+      '.ifzw{font-family:Mulish,Arial,sans-serif;font-size:.875rem;line-height:1.5;color:#636363;}',
+      '.ifzw a{color:#800000;font-weight:700;text-decoration:none;}',
+      '.ifzw a:hover{text-decoration:underline;}',
+      '.ifzw-kruim{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;border-bottom:1px solid #e6e1dc;padding:0 0 8px;margin:0 0 14px;}',
+      '.ifzw-fase{background:#faf5f5;color:#800000;border-radius:999px;padding:0 10px;font-weight:700;}',
+      '.ifzw-verder{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch;margin:28px 0 8px;}',
+      '.ifzw-volg{display:block;border:1px solid #e6e1dc;border-left:4px solid #800000;padding:12px 16px;background:#faf5f5;}',
+      '.ifzw-volg small{display:block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#636363;}',
+      '.ifzw-volg b{font-family:Poppins,Arial,sans-serif;font-weight:500;font-size:1.05rem;}',
+      '.ifzw-terug{display:flex;align-items:center;justify-content:center;border:2px solid #800000;border-radius:999px;padding:10px 18px;min-height:44px;white-space:nowrap;font-family:Poppins,Arial,sans-serif;font-weight:600;}',
+      '.ifzw-balk{border:1px solid #e6e1dc;border-left:4px solid #800000;background:#faf5f5;padding:12px 16px;margin:0 0 24px;font-size:.9375rem;}',
+      '@media(max-width:600px){.ifzw-verder{grid-template-columns:1fr;}}',
+      '@media print{.ifzw{display:none!important;}}',
       '.ifz-ruimte{display:none;}',
       '@media(max-width:600px){',
       ' .ifz-ruimte{display:block;height:76px;}',
@@ -266,9 +314,9 @@
     w.innerHTML =
       '<div class="ifz-vast">' +
       '<div class="ifz-paneel" id="ifz-paneel" role="region" aria-labelledby="ifz-titel" hidden>' +
-      '<div class="ifz-kop"><div><h2 id="ifz-titel" tabindex="-1">' + huis + 'La Maison</h2><small>kopen, kosten, verkopen</small></div>' +
+      '<div class="ifz-kop"><div><h2 id="ifz-titel" tabindex="-1">' + huis + (nu === LAMAISONPAD ? 'La Maison' : '<a class="ifz-hl" href="' + esc(LAMAISON) + '">La Maison</a>') + '</h2><small>kopen, kosten, verkopen, wonen</small><p class="ifz-vers" hidden></p></div>' +
       '<button type="button" class="ifz-dicht" aria-label="Sluiten">×</button></div>' +
-      '<div class="ifz-tabs" role="tablist" aria-label="Kopen, kosten of verkopen">' + tabs + '</div>' +
+      '<div class="ifz-tabs" role="tablist" aria-label="Kopen, kosten, verkopen of wonen">' + tabs + '</div>' +
       '<div class="ifz-body">' + panelen + '</div>' +
       '<div class="ifz-voet">' +
       '<div class="ifz-kif">Verbouwen en klussen: <a href="' + esc(KLUSSEN) + '">dossier Klussen in Frankrijk</a></div>' +
@@ -285,8 +333,21 @@
     var ruimte = document.createElement('div');
     ruimte.className = 'ifz-ruimte';
     ruimte.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(ruimte);
-    document.body.appendChild(w);
+    /* homepage: paneel open in de pagina, boven "Recent geplaatste berichten"; lukt dat niet, dan gewoon zwevend */
+    var inline = false;
+    if (thuispagina) {
+      var kandidaten = document.querySelectorAll('h1,h2,h3,h4,.et_pb_text_inner');
+      for (var hk = 0; hk < kandidaten.length; hk++) {
+        var tx = (kandidaten[hk].textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        if (tx.indexOf('recent geplaatste berichten') === 0 && tx.length < 60) {
+          var anker = kandidaten[hk].closest('.et_pb_module') || kandidaten[hk];
+          w.className = 'ifz ifz-inline';
+          anker.parentNode.insertBefore(w, anker);
+          inline = true; break;
+        }
+      }
+    }
+    if (!inline) { document.body.appendChild(ruimte); document.body.appendChild(w); }
 
     var vast = w.querySelector('.ifz-vast'), knop = w.querySelector('.ifz-knop'),
         paneel = w.querySelector('.ifz-paneel'), dicht = w.querySelector('.ifz-dicht'),
@@ -314,6 +375,71 @@
       })(tb);
     }
 
+    /* ---- Wegwijzers: regel boven en vervolgstap onder elk La Maison-artikel, balk op de vastgoedcategorieën ---- */
+    function plat() {                                          /* alle regels met pad, in leesvolgorde, met deel en fase */
+      var r = [], seen = {};
+      for (var d = 0; d < DELEN.length; d++) {
+        var de = DELEN[d];
+        if (de.fasen) { for (var f = 0; f < de.fasen.length; f++) { var ar = de.fasen[f].artikelen || []; for (var j = 0; j < ar.length; j++) if (ar[j].pad && !seen[norm(ar[j].pad)]) { seen[norm(ar[j].pad)] = 1; r.push({ a: ar[j], d: d, f: f }); } } }
+        else { var a2 = de.artikelen || []; for (var k = 0; k < a2.length; k++) if (a2[k].pad && !seen[norm(a2[k].pad)]) { seen[norm(a2[k].pad)] = 1; r.push({ a: a2[k], d: d, f: -1 }); } }
+      }
+      return r;
+    }
+    function wegwijzers() {
+      try {
+        var div;
+        var fv = document.getElementById('ifz-forum');                /* forumknoppen op de pagina La Maison */
+        if (fv) { var fh = ''; for (var fi = 0; fi < FORUM.length; fi++) fh += '<li><a href="' + esc(FORUMTAG + encodeURIComponent(FORUM[fi]).replace(/%20/g, '+')) + '">' + esc(FORUM[fi]) + '</a></li>'; fv.innerHTML = fh; }
+        if (categorie && !hier) {
+          var doel = document.querySelector('#main-content .et_pb_section, #main-content, .et-l--body, main');
+          if (!doel) return;
+          div = document.createElement('div'); div.className = 'ifzw ifzw-balk';
+          div.innerHTML = 'Alles over het Franse huis, van kopen tot wonen, staat op één plek: <a href="' + esc(LAMAISON) + '">La Maison</a>.';
+          doel.insertBefore(div, doel.firstChild);
+          return;
+        }
+        if (!hier) return;
+        var de = DELEN[hier.deel];
+        var kruim = '<a href="' + esc(LAMAISON) + '">La Maison</a><span aria-hidden="true">›</span><a href="' + esc(de.fasen ? GIDS : LAMAISON) + '">' + esc(de.naam) + '</a>';
+        if (hier.fase >= 0) kruim += '<span aria-hidden="true">›</span><span class="ifzw-fase">fase ' + esc(de.fasen[hier.fase].nr) + ' van ' + de.fasen.length + ': ' + esc(de.fasen[hier.fase].titel.toLowerCase()) + '</span>';
+        var titel = document.querySelector('.et_pb_title_container h1.entry-title, h1.entry-title');
+        var inhoud = document.querySelector('.et_pb_post_content, .entry-content');
+        if (titel && titel.parentNode) {
+          div = document.createElement('nav'); div.className = 'ifzw ifzw-kruim'; div.setAttribute('aria-label', 'Plaats in La Maison');
+          div.innerHTML = kruim; titel.parentNode.insertBefore(div, titel);
+        }
+        if (!inhoud) return;
+        var lijst = plat(), i = -1;
+        for (var q = 0; q < lijst.length; q++) if (norm(lijst[q].a.pad) === nu) { i = q; break; }
+        var volg = null;
+        for (var v = i + 1; v < lijst.length; v++) { if (lijst[v].d === hier.deel) { volg = lijst[v]; break; } }
+        var vh = '';
+        if (volg) {
+          var lab = volg.f >= 0 ? 'Fase ' + DELEN[volg.d].fasen[volg.f].nr + ': ' + volg.a.titel : volg.a.titel;
+          vh = '<a class="ifzw-volg" href="' + esc(SITE + volg.a.pad) + '"><small>Volgende stap</small><b>' + esc(lab) + '</b></a>';
+        }
+        div = document.createElement('div'); div.className = 'ifzw ifzw-verder';
+        div.innerHTML = vh + '<a class="ifzw-terug" href="' + esc(LAMAISON) + '">Terug naar La Maison</a>';
+        if (!vh) div.style.gridTemplateColumns = '1fr';
+        inhoud.appendChild(div);
+      } catch (e3) {}
+    }
+    function laatsteVers() {                                   /* één verzoek naar de eigen site; bij een fout geen regel */
+      try {
+        if (!window.fetch) return;
+        var slugs = [], l = plat();
+        for (var q = 0; q < l.length; q++) slugs.push('slug[]=' + encodeURIComponent(norm(l[q].a.pad).replace(/\//g, '')));
+        fetch(SITE + '/wp-json/wp/v2/posts?per_page=1&orderby=modified&order=desc&_fields=title,link,modified&' + slugs.join('&'), { credentials: 'omit' })
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (j) {
+            if (!j || !j[0] || !j[0].modified) return;
+            var dd = j[0].modified.slice(0, 10).split('-'), el = w.querySelector('.ifz-vers');
+            var t = document.createElement('textarea'); t.innerHTML = j[0].title && j[0].title.rendered || ''; /* entiteiten ontcijferen zonder HTML uit te voeren */
+            el.innerHTML = 'Laatst bijgewerkt: <a href="' + esc(j[0].link) + '">' + esc(t.value) + '</a> · ' + dd[2] + '-' + dd[1] + '-' + dd[0];
+            el.hidden = false;
+          }).catch(function () {});
+      } catch (e4) {}
+    }
     function plaats() {                                        /* smal: lipje alleen aan het einde van de pagina */
       if (!paneel.hidden) { vast.classList.remove('ifz-weg'); return; }
       var smal = window.innerWidth <= 600;
@@ -335,6 +461,14 @@
       if (terug) knop.focus();
       plaats();
     }
+    if (inline) {
+      paneel.hidden = false; knop.setAttribute('aria-expanded', 'true');
+      kop.removeAttribute('tabindex');
+      laatsteVers();
+      if (bron && bron.parentNode) bron.parentNode.removeChild(bron);
+      return;
+    }
+    wegwijzers();
     knop.addEventListener('click', function () { if (paneel.hidden) open(); else sluit(true); });
     dicht.addEventListener('click', function () { sluit(true); });
     /* rustige fade-out van het paneel na het kiezen van een link */
