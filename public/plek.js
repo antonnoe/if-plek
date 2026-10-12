@@ -20,8 +20,8 @@
        of { titel, later: true } voor iets dat nog komt (grijs, geen link). Alleen live artikelen opnemen.
        Een pad mag op meer plekken staan; de pagina is "thuis" in de eerste plek (volgorde kopen, kosten, verkopen). */
     var SITE = 'https://infofrankrijk.com';
-    var GIDS = SITE + '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
-    var GIDSPAD = '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
+    var GIDS = SITE + '/gids-huis-kopen-frankrijk/';
+    var GIDSPAD = '/gids-huis-kopen-frankrijk/';
     var INTEGRATIEPAD = '/de-franse-integratiegids/'; /* staat onder "Past de locatie?" bij fase 2 */
     var KLUSSEN = SITE + '/klussen/';
     var CAFE = 'https://www.cafeclaude.fr/';
@@ -139,7 +139,7 @@
       return null;
     }
     var hier = thuis();
-    var op = (nu === GIDSPAD || nu === '/past-de-locatie/' || hier);
+    var op = (nu === GIDSPAD || nu === '/past-de-locatie/' || nu === '/klussen/' || hier);
     function item(a) {
       if (a.later || !a.pad) return '<li class="ifz-later">' + esc(a.titel) + ' <i>komt later</i></li>';
       if (norm(a.pad) === nu) return '<li class="ifz-hier"><span>u bent hier</span>' + esc(a.titel) + '</li>';
@@ -181,12 +181,12 @@
     var css = [
       '.ifz{--z-p:#800000;--z-ink:#252525;--z-muted:#636363;--z-l:#e6e1dc;--z-bg:#faf8f6;font-family:Mulish,Arial,sans-serif;font-size:16px;line-height:1.4;color:var(--z-ink);}',
       '.ifz *{box-sizing:border-box;}',
-      '.ifz .ifz-vast{position:fixed;right:20px;bottom:20px;z-index:9990;margin:0;}',
+      '.ifz .ifz-vast{position:fixed;left:0;right:0;bottom:20px;width:max-content;margin:0 auto;z-index:9990;}',
       '.ifz .ifz-knop{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 18px 8px 14px;border-radius:999px;background:#fff;border:2px solid var(--z-p);color:var(--z-p);font-family:Poppins,Arial,sans-serif;font-weight:600;font-size:1rem;line-height:1.3;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.15);text-transform:none;letter-spacing:0;}',
       '.ifz .ifz-knop:hover{background:#fff7f7;}',
       '.ifz .ifz-knop:focus-visible{outline:3px solid #252525;outline-offset:3px;}',
       '.ifz .ifz-knop svg{flex:0 0 22px;}',
-      '.ifz .ifz-paneel{position:absolute;right:0;bottom:56px;width:360px;max-width:calc(100vw - 32px);max-height:calc(100vh - 100px);display:flex;flex-direction:column;background:#fff;border:1px solid var(--z-l);border-top:4px solid var(--z-p);border-radius:10px;box-shadow:0 10px 36px rgba(0,0,0,.22);text-align:left;font-size:.9375rem;}',
+      '.ifz .ifz-paneel{position:absolute;left:50%;transform:translateX(-50%);bottom:56px;width:360px;max-width:calc(100vw - 32px);max-height:calc(100vh - 100px);display:flex;flex-direction:column;background:#fff;border:1px solid var(--z-l);border-top:4px solid var(--z-p);border-radius:10px;box-shadow:0 10px 36px rgba(0,0,0,.22);text-align:left;font-size:.9375rem;}',
       '.ifz .ifz-paneel[hidden],.ifz .ifz-tabpaneel[hidden]{display:none;}',
       '.ifz .ifz-kop{flex:none;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:14px 16px 10px;}',
       '.ifz .ifz-kop h2{display:flex;gap:8px;align-items:center;font-family:Poppins,Arial,sans-serif;font-size:1.25rem;font-weight:600;color:var(--z-p);margin:0;padding:0;line-height:1.3;text-transform:none;letter-spacing:0;}',
@@ -237,9 +237,9 @@
       '.ifz-ruimte{display:none;}',
       '@media(max-width:600px){',
       ' .ifz-ruimte{display:block;height:76px;}',
-      ' .ifz .ifz-vast{right:12px;bottom:12px;transition:transform .25s ease,visibility .25s;}',
+      ' .ifz .ifz-vast{bottom:12px;transition:transform .25s ease,visibility .25s;}',
       ' .ifz .ifz-vast.ifz-weg{transform:translateY(90px);visibility:hidden;}',
-      ' .ifz .ifz-paneel{position:fixed;left:0;right:0;bottom:0;width:auto;max-width:none;max-height:78vh;border-radius:14px 14px 0 0;}',
+      ' .ifz .ifz-paneel{position:fixed;left:0;right:0;bottom:0;transform:none;width:auto;max-width:none;max-height:78vh;border-radius:14px 14px 0 0;}',
       ' .ifz .ifz-voet{border-radius:0;}',
       '}',
       '@media(prefers-reduced-motion:reduce){.ifz .ifz-vast{transition:none!important;}}',
