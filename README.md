@@ -1,6 +1,6 @@
 # if-plek
 
-Vaste bron van het zwevende element "Past de LOCATIE?" voor Infofrankrijk en de tools.
+Vaste bron van het zwevende element "La Maison" voor Infofrankrijk en de tools.
 
 - Script: `public/plek.js`, geen afhankelijkheden, geen cookies, geen opslag, geen netwerkverzoeken.
 - Insluiten: `<a class="ifz-plek" href="https://infofrankrijk.com/past-de-locatie/">Past de LOCATIE?</a>` plus `<script src="https://if-plek.vercel.app/plek.js" defer></script>`. Zonder script blijft de gewone link werken.
@@ -28,3 +28,7 @@ Het script toont het element dan alleen op de gids, op /past-de-locatie/ en op a
 `public/plaatsing/` bevat de HTML voor /past-de-locatie/ en het hubblok voor de gids (bron voor het plaatsen in WordPress, noindex).
 
 Tools die nog niet bestaan staan grijs en niet-klikbaar met het label "komt later"; in plek.js wordt de enquête pas een link met data-ifz-enquete="ja".
+
+## La Maison
+
+Het zwevende element heet La Maison (huisicoon, tabs Kopen, Kosten, Verkopen). De indeling staat op één plek: het blok `DELEN` bovenaan `public/plek.js`, tussen `INDELING` en `einde INDELING`. Per deel titels en paden (met begin- en eindslash); `later: true` toont een regel grijs als "komt later". De pagina is thuis in de eerste plek waar het pad staat (volgorde kopen, kosten, verkopen). In de automatische modus verschijnt het element alleen op de gids, op /past-de-locatie/ en op paden uit de indeling. De regio-enquête wordt een link met `data-ifz-enquete="ja"` op de scripttag. Zonder script blijft een gewone `a.ifz-plek` staan.
