@@ -20,8 +20,8 @@
        of { titel, later: true } voor iets dat nog komt (grijs, geen link). Alleen live artikelen opnemen.
        Een pad mag op meer plekken staan; de pagina is "thuis" in de eerste plek (volgorde kopen, kosten, verkopen). */
     var SITE = 'https://infofrankrijk.com';
-    var GIDS = SITE + '/gids-huis-kopen-frankrijk/';
-    var GIDSPAD = '/gids-huis-kopen-frankrijk/';
+    var GIDS = SITE + '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
+    var GIDSPAD = '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
     var INTEGRATIEPAD = '/de-franse-integratiegids/'; /* staat onder "Past de locatie?" bij fase 2 */
     var KLUSSEN = SITE + '/klussen/';
     var CAFE = 'https://www.cafeclaude.fr/';
