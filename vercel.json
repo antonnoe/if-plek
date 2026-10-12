@@ -21,6 +21,15 @@
           "value": "public, max-age=60, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/plaatsing/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://infofrankrijk.com"
+        }
+      ]
     }
   ]
 }
