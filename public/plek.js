@@ -20,8 +20,8 @@
        of { titel, later: true } voor iets dat nog komt (grijs, geen link). Alleen live artikelen opnemen.
        Een pad mag op meer plekken staan; de pagina is "thuis" in de eerste plek (volgorde kopen, kosten, verkopen). */
     var SITE = 'https://infofrankrijk.com';
-    var GIDS = SITE + '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
-    var GIDSPAD = '/gids-huis-kopen-frankrijkgids-huis-kopen-frankrijk/';
+    var GIDS = SITE + '/gids-huis-kopen-frankrijk/';
+    var GIDSPAD = '/gids-huis-kopen-frankrijk/';
     var INTEGRATIEPAD = '/de-franse-integratiegids/'; /* staat onder "Past de locatie?" bij fase 2 */
     var KLUSSEN = SITE + '/klussen/';
     var CAFE = 'https://www.cafeclaude.fr/';
@@ -182,6 +182,7 @@
       '.ifz{--z-p:#800000;--z-ink:#252525;--z-muted:#636363;--z-l:#e6e1dc;--z-bg:#faf8f6;font-family:Mulish,Arial,sans-serif;font-size:16px;line-height:1.4;color:var(--z-ink);}',
       '.ifz *{box-sizing:border-box;}',
       '.ifz .ifz-vast{position:fixed;left:0;right:0;bottom:20px;width:max-content;margin:0 auto;z-index:9990;}',
+      '.ifz .ifz-vast.ifz-uit{opacity:0;transition:opacity .7s ease;pointer-events:none;}',
       '.ifz .ifz-knop{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 18px 8px 14px;border-radius:999px;background:#fff;border:2px solid var(--z-p);color:var(--z-p);font-family:Poppins,Arial,sans-serif;font-weight:600;font-size:1rem;line-height:1.3;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.15);text-transform:none;letter-spacing:0;}',
       '.ifz .ifz-knop:hover{background:#fff7f7;}',
       '.ifz .ifz-knop:focus-visible{outline:3px solid #252525;outline-offset:3px;}',
@@ -336,6 +337,15 @@
     }
     knop.addEventListener('click', function () { if (paneel.hidden) open(); else sluit(true); });
     dicht.addEventListener('click', function () { sluit(true); });
+    /* rustige fade-out van het paneel na het kiezen van een link */
+    paneel.addEventListener('click', function (e) {
+      var l = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!l || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || l.target === '_blank') return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      e.preventDefault();
+      vast.classList.add('ifz-uit');
+      setTimeout(function () { window.location.href = l.href; }, 700);
+    });
     document.addEventListener('keydown', function (e) {
       if ((e.key === 'Escape' || e.key === 'Esc') && !paneel.hidden) sluit(true);
     });
