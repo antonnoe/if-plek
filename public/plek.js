@@ -268,7 +268,7 @@
       '.ifz.ifz-inline{margin:0 auto 40px;max-width:560px;}',
       '.ifz.ifz-inline .ifz-vast{position:static;width:auto;margin:0;}',
       '.ifz.ifz-inline .ifz-paneel{position:static;transform:none;width:auto;max-width:none;max-height:none;box-shadow:0 3px 16px rgba(0,0,0,.08);}',
-      '.ifz.ifz-inline .ifz-body{max-height:420px;}',
+      '.ifz.ifz-inline .ifz-body{max-height:none;overflow:visible;}',
       '.ifz.ifz-inline .ifz-knop,.ifz.ifz-inline .ifz-dicht{display:none;}',
       '.ifzw{font-family:Mulish,Arial,sans-serif;font-size:.875rem;line-height:1.5;color:#636363;}',
       '.ifzw a{color:#800000;font-weight:700;text-decoration:none;}',
@@ -389,13 +389,21 @@
       try {
         var div;
         var fv = document.getElementById('ifz-forum');                /* forumknoppen op de pagina La Maison */
-        if (fv) { var fh = ''; for (var fi = 0; fi < FORUM.length; fi++) fh += '<li><a href="' + esc(FORUMTAG + encodeURIComponent(FORUM[fi]).replace(/%20/g, '+')) + '">' + esc(FORUM[fi]) + '</a></li>'; fv.innerHTML = fh; }
+        if (fv) { var fh = ''; for (var fi = 0; fi < FORUM.length; fi++) fh += '<li><a target="_blank" rel="noopener" href="' + esc(FORUMTAG + encodeURIComponent(FORUM[fi]).replace(/%20/g, '+')) + '">' + esc(FORUM[fi]) + '</a></li>'; fv.innerHTML = fh; }
         if (categorie && !hier) {
           var doel = document.querySelector('#main-content .et_pb_section, #main-content, .et-l--body, main');
           if (!doel) return;
           div = document.createElement('div'); div.className = 'ifzw ifzw-balk';
           div.innerHTML = 'Alles over het Franse huis, van kopen tot wonen, staat op één plek: <a href="' + esc(LAMAISON) + '">La Maison</a>.';
           doel.insertBefore(div, doel.firstChild);
+          return;
+        }
+        if (nu === GIDSPAD) {                                       /* gids: ankers na het laden opnieuw goed zetten, en een einde met terugweg */
+          var gi = document.querySelector('.et_pb_post_content, .entry-content');
+          if (gi) { div = document.createElement('div'); div.className = 'ifzw ifzw-verder'; div.style.gridTemplateColumns = '1fr'; div.innerHTML = '<a class="ifzw-terug" href="' + esc(LAMAISON) + '">Terug naar La Maison</a>'; gi.appendChild(div); }
+          var herpos = function () { try { if (/^#fase[1-7]$/.test(location.hash)) { var t = document.getElementById(location.hash.slice(1)) || document.querySelector('[name="' + location.hash.slice(1) + '"]'); if (t) t.scrollIntoView(); } } catch (e5) {} };
+          if (document.readyState === 'complete') setTimeout(herpos, 400); else window.addEventListener('load', function () { setTimeout(herpos, 400); });
+          window.addEventListener('hashchange', function () { setTimeout(herpos, 400); });
           return;
         }
         if (!hier) return;
