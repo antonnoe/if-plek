@@ -1,8 +1,9 @@
 /* plek.js, zwevend element "La Maison" voor Infofrankrijk en de tools (kopen, kosten, verkopen).
    Geen bibliotheken, geen cookies, geen opslag, geen tracking, geen netwerkverzoeken.
    Faalt het script, dan blijft de gewone link a.ifz-plek staan. */
-(function () {
+(function ifzStart() {
   'use strict';
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', ifzStart); return; } /* ook veilig als het script in de head wordt geladen */
   try {
     if (window !== window.top) { var l = document.querySelectorAll('a.ifz-plek'); for (var i = 0; i < l.length; i++) { if (l[i].parentNode) l[i].parentNode.removeChild(l[i]); } return; } /* nooit in een iframe, ook de gewone link niet */
     if (window.__ifzPlek || document.querySelector('.ifz[data-ifz-live]')) return; /* dubbel laden */
