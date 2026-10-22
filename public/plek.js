@@ -1,7 +1,8 @@
 /* plek.js, zwevend element "La Maison" voor Infofrankrijk en de tools (kopen, kosten, verkopen, wonen).
    Ook: het paneel open op de homepage, een wegwijzer boven en onder elk La Maison-artikel en een balk op de vastgoedcategorieën.
-   Geen bibliotheken, geen cookies, geen opslag, geen tracking. Eén netwerkverzoek, alleen op de homepage, naar de eigen site
-   (welk La Maison-artikel het laatst is bijgewerkt); mislukt dat, dan blijft die regel gewoon weg.
+   Geen bibliotheken, geen cookies, geen opslag, geen tracking. De indeling staat in la-maison.json, zelfde herkomst als dit script:
+   één verzoek daarvoor, en op de homepage één naar de eigen site (welk La Maison-artikel het laatst is bijgewerkt).
+   Mislukt het laden van de indeling, dan gebeurt er niets en blijft de gewone link a.ifz-plek staan; mislukt de laatste regel, dan blijft die weg.
    Faalt het script, dan blijft de gewone link a.ifz-plek staan. */
 (function ifzStart() {
   'use strict';
@@ -17,10 +18,7 @@
 
     var script = document.currentScript || document.querySelector('script[src*="plek.js"]');
     var data = function (n) { return script && script.getAttribute ? script.getAttribute(n) : null; };
-    /* ===== INDELING: de enige plek om La Maison aan te passen =====
-       Drie delen: kopen (met zeven fasen), kosten, verkopen. Per regel een titel en een pad (begin- en eindslash),
-       of { titel, later: true } voor iets dat nog komt (grijs, geen link). Alleen live artikelen opnemen.
-       Een pad mag op meer plekken staan; de pagina is "thuis" in de eerste plek (volgorde kopen, kosten, verkopen). */
+    /* De indeling (delen, fasen, artikelen) staat in la-maison.json naast dit script, niet hier. Hieronder alleen vaste adressen en lijsten. */
     var SITE = 'https://infofrankrijk.com';
     var GIDS = SITE + '/gids-huis-kopen-frankrijk/';
     var GIDSPAD = '/gids-huis-kopen-frankrijk/';
@@ -33,73 +31,10 @@
     var CATNIET = ['/categorie/vastgoed/huren-en-verhuren/'];  /* verhuur valt buiten La Maison */
     var FORUMTAG = 'https://www.nederlanders.fr/profiles/blog/list?tag=';   /* bij de verhuizing van Nederlanders.fr alleen deze regel en de lijst hieronder aanpassen */
     var FORUM = ['Woningen Algemeen', 'Woningbeheer en Huishouding', 'Bouw', 'Inrichting', 'Exterieur', 'Telecommunicatie'];
-    var DELEN = [
-      { id: 'kopen', naam: 'Kopen', fasen: [
-        { nr: 1, titel: 'Voorbereiding', anker: '#fase1', artikelen: [
-          { titel: 'Franse bankrekening openen', pad: '/franse-bankrekening-openen-dit-zijn-de-regels-en-uw-rechten/' }
-        ] },
-        { nr: 2, titel: 'Waar en hoe zoeken', anker: '#fase2', artikelen: [
-          { titel: 'De Franse integratiegids', pad: '/de-franse-integratiegids/' },
-          { titel: 'De Franse makelaar: mandaat en provisie', pad: '/carte-professionnelle-bankgarantie-bon-de-visite-mandat/' },
-          { titel: 'Huizen van leden te koop', pad: '/huizen-van-leden-te-koop/' }
-        ] },
-        { nr: 3, titel: 'Bezichtigen', anker: '#fase3', artikelen: [
-          { titel: 'Vastgoed analyseren per adres', pad: '/vastgoed-in-frankrijk-analyseren-per-adres-prijzen-risicos-dpe-plu/' },
-          { titel: 'Vochtbestrijding en diagnosetool', pad: '/dossier-vochtbestrijding-en-diagnosetool/' },
-          { titel: 'De fosse septique', pad: '/dossier-fosse-septique/' },
-          { titel: 'Water en riool bij uw huis', pad: '/water-en-riool-frankrijk/' },
-          { titel: 'Een woning van leem', pad: '/handleiding-voor-een-woning-opgetrokken-uit-leem/' },
-          { titel: 'Van grange of atelier naar woning', pad: '/van-grange-of-atelier-naar-woning-eerst-goed-controleren-of-dat-zomaar-kancheck-eerst-het-plu-via-adres-ban/' }
-        ] },
-        { nr: 4, titel: 'Bod en compromis', anker: '#fase4', artikelen: [
-          { titel: 'Compromis de vente', pad: '/compromis-de-vente/' },
-          { titel: 'Kopen en viager', pad: '/kopen-en-viager/' },
-          { titel: 'Samen eigenaar: de indivision', pad: '/samen-eigenaar-in-frankrijk-rechten-plichten-en-valkuilen-van-indivision/' },
-          { titel: 'De SCI (Société Civile Immobilière)', pad: '/sci-societe-civile-immobiliere/' }
-        ] },
-        { nr: 5, titel: 'Tot de akte', anker: '#fase5', artikelen: [
-          { titel: 'Verplichte technische onderzoeken', pad: '/de-verplichte-technische-onderzoeken-bij-de-verkoop-van-een-huis/' },
-          { titel: 'DPE: energielabel en verplichtingen', pad: '/dpe-2026-in-frankrijk-uitleg-verplichtingen-en-aandachtspunten/' },
-          { titel: 'De mairie, van de wieg tot het graf', pad: '/la-mairie-van-de-wieg-tot-het-graf/' }
-        ] },
-        { nr: 6, titel: 'Acte authentique', anker: '#fase6', artikelen: [
-          { titel: 'De Franse notaris', pad: '/le-notaire/' },
-          { titel: 'Begrippenlijst notaris en makelaar', pad: '/begrippenlijst-makelaardij-en-notarissen-frankrijk/' }
-        ] },
-        { nr: 7, titel: 'Na de aankoop', anker: '#fase7', artikelen: [
-          { titel: 'Verzekeringen in Frankrijk', pad: '/verzekeringen-in-frankrijk/' }
-        ] }
-      ] },
-      { id: 'kosten', naam: 'Kosten', artikelen: [
-        { titel: 'Kosten koper (rekentool)', pad: '/vastgoed-transactiekosten/' },
-        { titel: 'Lening of hypotheek', later: true },
-        { titel: 'De taxe foncière', pad: '/de-taxe-fonciere-onroerendgoedbelasting/' },
-        { titel: 'Taxe d’habitation tweede woning', pad: '/taxe-dhabitation-tweede-woning/' },
-        { titel: 'Subsidies voor energierenovatie', pad: '/subsidies-voor-energierenovatie-in-frankrijk-overzicht-en-spelregels/' },
-        { titel: 'MaPrimeRénov’ 2026', pad: '/maprimerenov-2026-bezint-eer-ge-begint/' },
-        { titel: 'Éco-PTZ, renteloze lening', pad: '/eco-ptz-renteloze-lening-voor-energierenovatie-in-frankrijk/' },
-        { titel: 'Btw van 5,5 % op renovatie', pad: '/tva-a-55-bij-renovatie-in-frankrijk-wanneer-geldt-het-lage-btw-tarief/' },
-        { titel: 'CEE-premies', pad: '/cee-en-primes-energie-energiebesparingspremies-in-frankrijk-uitgelegd/' },
-        { titel: 'Lokale subsidies', pad: '/lokale-subsidies-voor-energierenovatie-in-frankrijk-zo-vindt-u-wat-er-geldt/' }
-      ] },
-      { id: 'verkopen', naam: 'Verkopen', artikelen: [
-        { titel: 'Verkoop van uw huis: 5 adviezen, 5 valkuilen, 5 fasen', pad: '/verkoop-van-uw-huis-in-frankrijk-5-adviezen-5-valkuilen-5-fasen/' },
-        { titel: 'De plus-value immobilière', pad: '/de-plus-value-immobiliere/' },
-        { titel: 'Plus-value-calculator (rekentool)', pad: '/plus-value-calculator/' },
-        { titel: 'Arrest De Ruyter: mis het voordeel niet', pad: '/zorg-dat-je-het-voordeel-arrest-de-ruyter-niet-misloopt/' }
-      ] },
-      { id: 'wonen', naam: 'Wonen', artikelen: [
-        { titel: 'EnergiePortaal (rekentool)', pad: '/energieportaal-bereken-de-energieprestatie-van-uw-franse-woning/' },
-        { titel: 'De keuze van het verwarmingssysteem', pad: '/de-keuze-van-het-verwarmingssysteem/' },
-        { titel: 'Aanleg centrale verwarming', later: true },
-        { titel: 'Rookgasafvoer en schoorsteen', pad: '/rookgasafvoer-schoorsteen-frankrijk-regels-verzekering/' },
-        { titel: 'De isolatie van het Franse huis', pad: '/de-isolatie-van-het-franse-huis/' },
-        { titel: 'Handboek zonnepanelen', pad: '/handboek-zonnepanelen-en-energieopwekking-frankrijk/' },
-        { titel: 'Gedupeerd door natuurgeweld', pad: '/gedupeerd-door-natuurgeweld-in-frankrijk-uw-verzekering-goed-regelen/' }
-      ] }
-    ];
-    /* ===== einde INDELING ===== */
 
+    function ifzReset() { try { window.__ifzPlek = false; } catch (e6) {} }
+    function ifzInit(DELEN) {
+    try {
     var MAX = 1800;
     var BASIS = 'https://www.dossierfrankrijk.nl/nieuw?titel=';
 
@@ -513,5 +448,23 @@
       var r = document.querySelector('.ifz-ruimte'); if (r) r.parentNode.removeChild(r);
       window.__ifzPlek = false;
     } catch (e2) {}
+  }
+    }
+
+    /* ---- De indeling laden: la-maison.json staat naast dit script. Lukt dat niet, dan gebeurt er niets (de gewone link blijft staan). ---- */
+    var jsonUrl = null;
+    try { jsonUrl = new URL('la-maison.json', script.src).href; } catch (e7) {}
+    if (!jsonUrl || !window.fetch) { ifzReset(); return; }
+    fetch(jsonUrl, { credentials: 'omit' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        var ok = Array.isArray(j) && j.length > 0;
+        for (var z = 0; ok && z < j.length; z++) { if (!j[z] || typeof j[z].id !== 'string' || typeof j[z].naam !== 'string' || !(j[z].fasen || j[z].artikelen)) ok = false; }
+        if (!ok) { ifzReset(); return; }
+        ifzInit(j);
+      })
+      .catch(function () { ifzReset(); });
+  } catch (e) {
+    try { window.__ifzPlek = false; } catch (e2) {}
   }
 })();
