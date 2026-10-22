@@ -1,0 +1,37 @@
+{
+  "stappen": [
+    {
+      "nr": 1,
+      "titel": "Mag ik dit hier doen?",
+      "items": [
+        { "titel": "Beroepenchecker", "pad": "/beroepenchecker-werken-of-ondernemen-in-frankrijk/", "soort": "artikel" },
+        { "titel": "KvK-zoeker: welke chambre bij welk beroep", "pad": "/kvk-zoeker-welke-chambre-bij-welk-beroep/", "soort": "artikel" }
+      ]
+    },
+    {
+      "nr": 2,
+      "titel": "Starten",
+      "items": [
+        { "titel": "Ondernemen in Frankrijk", "pad": "/ondernemen-in-frankrijk-micro-entreprise-zelfstandigen/", "soort": "artikel" },
+        { "titel": "Een gîte beginnen", "pad": "/gite-beginnen-in-frankrijk/", "soort": "artikel", "ook": ["wonen"] },
+        { "titel": "Gîtekompas", "soort": "tool", "module": "gitekompas" }
+      ]
+    },
+    {
+      "nr": 3,
+      "titel": "Werken en factureren",
+      "items": [
+        { "titel": "Van offerte tot incasso", "pad": "/zakelijke-transactie-van-offerte-tot-incasso/", "soort": "artikel" },
+        { "titel": "Keuzewijzer e-facturatie", "url": "https://e-facturatie-frankrijk.vercel.app", "soort": "tool", "module": "efacturatie" },
+        { "titel": "ZZP-boekhoudplatform", "soort": "tool", "module": "zzpplatform" }
+      ]
+    },
+    {
+      "nr": 4,
+      "titel": "Belasting en voordelen",
+      "items": [
+        { "titel": "Belastingvoordelen in plattelandszones (ZFRR)", "pad": "/belastingvoordelen-voor-ondernemers-in-franse-plattelandszones-zfrr/", "soort": "artikel" }
+      ]
+    }
+  ]
+}
