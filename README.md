@@ -36,3 +36,7 @@ Het zwevende element heet La Maison (huisicoon, tabs Kopen, Kosten, Verkopen). D
 ## Tests
 
 `node --test tests/*.test.mjs` (geen afhankelijkheden).
+
+## Vastgoed-API (InfoPoche)
+
+`GET /api/vastgoed` (`api/vastgoed.js`, logica in `lib/vastgoed.js`) levert de vastgoedadvertenties van Nederlanders.fr als JSON voor InfoPoche. Bron: de Google Sheet achter de verzamelpagina https://www.nederlanders.fr/page/onroerend-goed (publieke CSV-export, alleen gelezen, nooit geschreven). Filterregel: alleen rijen waarvan de advertentie-URL (genormaliseerd: zonder protocol, www, slot-slash, #-deel en querystring, hoofdletterongevoelig) als href op die pagina staat; verkochte advertenties zijn daar weg en vallen zo vanzelf af. Rijen zonder titel, url of leesbare datum vervallen. Uitvoer: `{bijgewerkt, bron, aantal, items:[{titel, url, prijsTekst, prijs, foto, plaats, omschrijving, datum, datumISO, exploitatie}]}`, nieuwste datum eerst. Een lege prijs wordt "Opvragen bij de verkoper", een kaal getal "€ 196.000", andere tekst blijft staan. Valt de sheet of de pagina weg, of staan er minder dan 5 advertentielinks op de pagina, dan komt status 502 met `{"fout":"bron niet bereikbaar"}` (geen terugval op alle rijen). CORS `*` (GET, OPTIONS), cache 15 minuten, time-out 8 s per bron, geen opslag of cookies.
