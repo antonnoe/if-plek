@@ -22,8 +22,7 @@
       "titel": "Werken en factureren",
       "items": [
         { "titel": "Van offerte tot incasso", "pad": "/zakelijke-transactie-van-offerte-tot-incasso/", "soort": "artikel" },
-        { "titel": "Keuzewijzer e-facturatie", "url": "https://e-facturatie-frankrijk.vercel.app", "soort": "tool", "module": "efacturatie" },
-        { "titel": "ZZP-boekhoudplatform", "soort": "tool", "module": "zzpplatform" }
+        { "titel": "Keuzewijzer e-facturatie", "url": "https://e-facturatie-frankrijk.vercel.app", "soort": "tool", "module": "efacturatie" }
       ]
     },
     {
