@@ -37,6 +37,7 @@ Vercel serveert `public/` en de functie in `api/` (README.md, `vercel.json`). Si
 - Het script gebruikt geen cookies of opslag, doet één netwerkverzoek voor de indeling en in een iframe verschijnt het element niet (README.md)
 - Regio-enquête alleen tonen met `data-ifz-enquete="ja"` op de scripttag (README.md)
 - Vastgoed-API: de sheet wordt alleen gelezen en nooit geschreven, alleen advertenties waarvan de url als link op de verzamelpagina staat, en bij een onbereikbare bron status 502 zonder terugval op alle rijen (README.md)
+- Vastgoed-API: elke advertentie-url wordt bij elke run gecontroleerd; bij 404 of 410 valt de advertentie weg en staat ze in het veld `verwijderd`; time-outs en andere fouten laten de advertentie staan (besluit 23-11-2026)
 
 ## Laatst nagelopen
 Laatst nagelopen: 5 november 2026

@@ -58,3 +58,15 @@ test('live: echte bronnen', async (t) => {
   const items = L.bouwItems(csvL, L.linksUitHtml(htmlL));
   assert.ok(items.length >= 30 && items.length <= 80, 'aantal ' + items.length);
 });
+
+test('filterBestaand: alleen 404 en 410 vallen weg, fouten en time-outs blijven staan', async () => {
+  const items = ['a', 'b', 'c', 'd', 'e'].map((x) => ({ titel: x, url: 'https://x/' + x }));
+  const codes = { a: 200, b: 404, c: 410, d: 'fout', e: 500 };
+  const { bestaand, weg } = await L.filterBestaand(items, async (u) => {
+    const c = codes[u.slice(-1)];
+    if (c === 'fout') throw new Error('time-out');
+    return c;
+  });
+  assert.deepEqual(bestaand.map((i) => i.titel), ['a', 'd', 'e']);
+  assert.deepEqual(weg.map((i) => i.titel), ['b', 'c']);
+});
